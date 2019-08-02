@@ -44,7 +44,7 @@ server.listen(config.port, () => {
 
 server.on('close', () => {
   console.log('Shutting down server')
-  mongo.close()
+  //mongo.close()
 })
 
 module.exports = {
