@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-//const User = require('../models/user')
+const { getOneById } = require('./dataUtils')
 
 const userExtractor = async (req, res, next) => {
   if (!req.token) {
@@ -21,7 +21,13 @@ const userExtractor = async (req, res, next) => {
       err.isUnauthorizedAttempt = true
       next(err)
     }
-    //req.user = await User.findById(userId)
+    const user = await getOneById('users', userId)
+    if(!user) {
+      let err = new Error(`User ${userId} cannot be found`)
+      err.isUnauthorizedAttempt = true
+      next(err)
+    }
+    req.user = user
   }
   next()
 }
